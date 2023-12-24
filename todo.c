@@ -3,17 +3,21 @@
 #include <string.h>
 
 void AddTask(char tasks[][100]) {
-    printf("add task\n");
-    int i = 0;
+printf("add task\n");
+    int i = 0;  
     do {
         scanf("%s", tasks[i]);
         i++;
-    } while (strcmp(tasks[i - 1], "exit") != 0);
-        printf("%s",tasks[i]);
+    } while (strcmp(tasks[i - 1], "exit") != 0); // Ограничение на количество вводимых задач
+
+    printf("Your tasks:\n");
+    for (int j = 0; j < i - 1; j++) {
+        printf("%s\n", tasks[j]);
+    }
 }
 
 void DeleteTask() {
-    printf("Hello, delete added!\n");
+
 }
 
 void EditTask() {
