@@ -19,7 +19,11 @@ printf("add task\n");
         scanf("%s", Todo->tasks[i]);
         i++;
     } while (strcmp(Todo->tasks[i - 1], "exit") != 0);
+   AddPrintf(); 
+}
 
+void AddPrintf(){
+  int i = 0;
     printf("Your tasks:\n");
     for (int j = 0; j < i - 1; j++) {
         printf("%s\n", Todo->tasks[j]);
