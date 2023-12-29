@@ -5,10 +5,9 @@
 struct todo {
     char tasks[100][100];
     int taskCount;
-    char taskToDelete[100]; // Changed to array to store the task to delete
+    char taskToDelete[100]; 
 };
 
-// Function to add tasks to the todo list
 void AddTask(struct todo *Todo) {
     int i = 0;
 
@@ -17,19 +16,17 @@ void AddTask(struct todo *Todo) {
         i++;
     } while (strcmp(Todo->tasks[i - 1], "exit") != 0);
 
-    // Call the function to print tasks
     AddPrintf(Todo, i);
 }
 
-// Function to print tasks in the todo list
 void AddPrintf(struct todo *Todo, int count) {
     printf("Your tasks:\n");
     for (int j = 0; j < count - 1; j++) {
         printf("%s\n", Todo->tasks[j]);
     }
+    main();
 }
 
-// Function to delete a task from the todo list
 void DeleteTask(struct todo *Todo) {
     printf("Your tasks:\n");
     for (int j = 0; j < Todo->taskCount; j++) {
@@ -42,34 +39,34 @@ void DeleteTask(struct todo *Todo) {
 
     for (i = 0; i < Todo->taskCount; i++) {
         if (strcmp(Todo->tasks[i], Todo->taskToDelete) == 0) {
-            // Task found, break out of the loop
             break;
         }
     }
 
     if (i == Todo->taskCount) {
-        // Task not found
         printf("Task not found.\n");
         return;
     }
 
-    // Remove the task from the array
+    // удаляет задачу из массива
     for (; i < Todo->taskCount - 1; i++) {
         strcpy(Todo->tasks[i], Todo->tasks[i + 1]);
     }
 
-    // Decrease the task count after deletion
     (Todo->taskCount--);
+
+        printf("Updated tasks:\n");
+    for (int j = 0; j < Todo->taskCount; j++) {
+        printf("%d. %s\n", j + 1, Todo->tasks[j]);
+    }
 }
 
-// Function to edit a task in the todo list
 void EditTask(struct todo *Todo) {
-    // Add your implementation here
 }
 
 int main(void) {
     struct todo Todo;
-    Todo.taskCount = 0; // Initialize task count
+    Todo.taskCount = 0; 
 
     char user[10];
 
@@ -78,11 +75,11 @@ int main(void) {
     scanf("%s", user);
 
     if (strcmp(user, "Todo") == 0) {
-        AddTask(&Todo); // Pass the struct reference
+        AddTask(&Todo); 
     } else if (strcmp(user, "Delete") == 0) {
-        DeleteTask(&Todo); // Pass the struct reference
+        DeleteTask(&Todo); 
     } else if (strcmp(user, "Edit") == 0) {
-        EditTask(&Todo); // Pass the struct reference
+        EditTask(&Todo); 
     } else if (strcmp(user, "Exit") != 0) {
         printf("You entered something incorrect.\n");
         main();
