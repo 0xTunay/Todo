@@ -2,104 +2,89 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-  struct todo
- {
+struct todo {
     char tasks[100][100];
     int taskCount;
-    char *taskToDelete;
- };
- 
+    char taskToDelete[100]; // Changed to array to store the task to delete
+};
 
-void AddTask(struct todo * Todo) {
-printf("add task\n");
-    int i = 0;  
-    
-  do {
+// Function to add tasks to the todo list
+void AddTask(struct todo *Todo) {
+    int i = 0;
+
+    do {
         scanf("%s", Todo->tasks[i]);
         i++;
     } while (strcmp(Todo->tasks[i - 1], "exit") != 0);
-   AddPrintf(); 
+
+    // Call the function to print tasks
+    AddPrintf(Todo, i);
 }
 
-void AddPrintf(){
-  int i = 0;
+// Function to print tasks in the todo list
+void AddPrintf(struct todo *Todo, int count) {
     printf("Your tasks:\n");
-    for (int j = 0; j < i - 1; j++) {
+    for (int j = 0; j < count - 1; j++) {
         printf("%s\n", Todo->tasks[j]);
     }
-    main();
-    
 }
 
-void DeleteTask() {
-
-
-    struct todo * Todo;
-    
-
-
-   printf("Your tasks:\n");
+// Function to delete a task from the todo list
+void DeleteTask(struct todo *Todo) {
+    printf("Your tasks:\n");
     for (int j = 0; j < Todo->taskCount; j++) {
         printf("%d. %s\n", j + 1, Todo->tasks[j]);
     }
 
-
-
     int i;
-
-    printf("Введите задачу, которую вы хотите удалить: ");
+    printf("Enter the task you want to delete: ");
     scanf("%s", Todo->taskToDelete);
 
-
-    for (i = 0; i < 100; i++) {
+    for (i = 0; i < Todo->taskCount; i++) {
         if (strcmp(Todo->tasks[i], Todo->taskToDelete) == 0) {
-            // Находим задачу, которую нужно удалить
+            // Task found, break out of the loop
             break;
         }
     }
 
-    if (i == 100) {
-        // Задача не найдена
-        printf("Задача не найдена.\n");
+    if (i == Todo->taskCount) {
+        // Task not found
+        printf("Task not found.\n");
         return;
     }
 
-    // Удаляем задачу из массива
+    // Remove the task from the array
     for (; i < Todo->taskCount - 1; i++) {
-        strcpy(Todo->tasks[i], Todo->tasks[i + 1]);    }
+        strcpy(Todo->tasks[i], Todo->tasks[i + 1]);
+    }
 
-    // Уменьшаем количество задач после удаления
+    // Decrease the task count after deletion
     (Todo->taskCount--);
 }
 
-
-void EditTask() {
-    
+// Function to edit a task in the todo list
+void EditTask(struct todo *Todo) {
+    // Add your implementation here
 }
 
 int main(void) {
+    struct todo Todo;
+    Todo.taskCount = 0; // Initialize task count
+
     char user[10];
-    char tasks[100][100]; 
-    int taskCount = 0;
 
     printf("Hello, what do you want?\n");
     printf("Todo, Delete, Edit, Exit\n");
     scanf("%s", user);
 
     if (strcmp(user, "Todo") == 0) {
-        AddTask(tasks);
-    } 
-    else if (strcmp(user, "Delete") == 0) {
-        DeleteTask(tasks,&taskCount);
-    } 
-    else if (strcmp(user, "Edit") == 0) {
-        EditTask();
-    } 
-    else if (strcmp(user, "Exit") == 0) {}
-    
-    else {
-        printf("вы ввели чтото неправильное");
+        AddTask(&Todo); // Pass the struct reference
+    } else if (strcmp(user, "Delete") == 0) {
+        DeleteTask(&Todo); // Pass the struct reference
+    } else if (strcmp(user, "Edit") == 0) {
+        EditTask(&Todo); // Pass the struct reference
+    } else if (strcmp(user, "Exit") != 0) {
+        printf("You entered something incorrect.\n");
         main();
     }
 
