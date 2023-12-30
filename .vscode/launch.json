@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/tunay/todo",
-      "program": "/home/tunay/todo/build/Debug/outDebug",
+      "cwd": "/home/tunay/Todo",
+      "program": "/home/tunay/Todo/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

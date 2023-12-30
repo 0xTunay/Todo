@@ -28,11 +28,7 @@ void AddPrintf(struct todo *Todo, int count) {
 }
 
 void DeleteTask(struct todo *Todo) {
-    printf("Your tasks:\n");
-    for (int j = 0; j < Todo->taskCount; j++) {
-        printf("%d. %s\n", j + 1, Todo->tasks[j]);
-    }
-
+    
     int i;
     printf("Enter the task you want to delete: ");
     scanf("%s", Todo->taskToDelete);
@@ -48,20 +44,18 @@ void DeleteTask(struct todo *Todo) {
         return;
     }
 
-    // удаляет задачу из массива
+    // Shift tasks to overwrite the deleted one
     for (; i < Todo->taskCount - 1; i++) {
         strcpy(Todo->tasks[i], Todo->tasks[i + 1]);
     }
 
-    (Todo->taskCount--);
+    // **Update taskCount here**
+    Todo->taskCount--;
 
-        printf("Updated tasks:\n");
+    printf("Updated tasks:\n");
     for (int j = 0; j < Todo->taskCount; j++) {
         printf("%d. %s\n", j + 1, Todo->tasks[j]);
     }
-}
-
-void EditTask(struct todo *Todo) {
 }
 
 int main(void) {
