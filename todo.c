@@ -6,6 +6,7 @@ struct todo {
     char tasks[100][100];
     int taskCount;
     char taskToDelete[100]; 
+    char *taskName;
 };
 
 void AddTask(struct todo *Todo) {
@@ -27,37 +28,32 @@ void AddPrintf(struct todo *Todo, int count) {
     main();
 }
 
-void DeleteTask(struct todo *Todo) {
-    
-    int i;
-    printf("Enter the task you want to delete: ");
-    scanf("%s", Todo->taskToDelete);
+void TaskDelete(struct todo *Todo) {
+    int found = 0;
 
-    for (i = 0; i < Todo->taskCount; i++) {
-        if (strcmp(Todo->tasks[i], Todo->taskToDelete) == 0) {
+    for (int i = 0; i < Todo->taskCount; i++) {
+        if (strcmp(Todo->tasks[i],  Todo->taskName) == 0) {
+            found = 1;
+
+            // Remove the task and shift the remaining tasks
+            for (int j = i; j < Todo->taskCount - 1; j++) {
+                strcpy(Todo->tasks[j], Todo->tasks[j + 1]);
+            }
+
+            Todo->taskCount--;
             break;
         }
     }
 
-    if (i == Todo->taskCount) {
-        printf("Task not found.\n");
-        return;
+    if (found) {
+        printf("Task '%s' deleted successfully.\n", Todo->taskName);
+        AddPrintf(Todo, Todo->taskCount + 1);
+    } else {
+        printf("Task '%s' not found.\n", Todo->taskName);
+        main();
     }
 
-    // Shift tasks to overwrite the deleted one
-    for (; i < Todo->taskCount - 1; i++) {
-        strcpy(Todo->tasks[i], Todo->tasks[i + 1]);
-    }
-
-    // **Update taskCount here**
-    Todo->taskCount--;
-
-    printf("Updated tasks:\n");
-    for (int j = 0; j < Todo->taskCount; j++) {
-        printf("%d. %s\n", j + 1, Todo->tasks[j]);
-    }
 }
-
 int main(void) {
     struct todo Todo;
     Todo.taskCount = 0; 
@@ -65,15 +61,13 @@ int main(void) {
     char user[10];
 
     printf("Hello, what do you want?\n");
-    printf("Todo, Delete, Edit, Exit\n");
+    printf("Todo, Delete, Exit\n");
     scanf("%s", user);
 
     if (strcmp(user, "Todo") == 0) {
         AddTask(&Todo); 
     } else if (strcmp(user, "Delete") == 0) {
-        DeleteTask(&Todo); 
-    } else if (strcmp(user, "Edit") == 0) {
-        EditTask(&Todo); 
+        TaskDelete(&Todo); 
     } else if (strcmp(user, "Exit") != 0) {
         printf("You entered something incorrect.\n");
         main();
