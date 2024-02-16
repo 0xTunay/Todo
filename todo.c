@@ -75,5 +75,4 @@ int main(void) {
 
     return 0;
 
-    printf("мне похуй я сделаю коммит");
 }
