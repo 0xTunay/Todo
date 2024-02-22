@@ -11,7 +11,8 @@ struct todo {
 
 void AddTask(struct todo *Todo) {
     int i = 0;
-
+    printf("write your task:\n");
+    printf("if you want exit, write exit\n");
     do {
         scanf("%s", Todo->tasks[i]);
         i++;
@@ -29,29 +30,53 @@ void AddPrintf(struct todo *Todo, int count) {
 }
 
 void TaskDelete(struct todo *Todo) {
-    int found = 0;
+ int found = 0;
+ char input[100];
+    printf("task for delete: ");
+    scanf("%s",input);
 
-    for (int i = 0; i < Todo->taskCount; i++) {
-        if (strcmp(Todo->tasks[i],  Todo->taskName) == 0) {
+    for(int i = 0;i<Todo->taskCount;i++)
+    {
+        if(strcmp(Todo->tasks[i],input) == 0)
+        {
+            printf("found");
             found = 1;
 
-            // Remove the task and shift the remaining tasks
-            for (int j = i; j < Todo->taskCount - 1; j++) {
-                strcpy(Todo->tasks[j], Todo->tasks[j + 1]);
+            for(int j = 0; j <Todo->taskCount - 1;j++){
+                Todo->tasks[j] = Todo->tasks[j+1];
+                break;
             }
-
             Todo->taskCount--;
             break;
         }
     }
+    if(!found )
+    {
+        printf("task not dound\n");
 
-    if (found) {
-        printf("Task '%s' deleted successfully.\n", Todo->taskName);
-        AddPrintf(Todo, Todo->taskCount + 1);
-    } else {
-        printf("Task '%s' not found.\n", Todo->taskName);
-        main();
     }
+    return 0;
+    // for (int i = 0; i < Todo->taskCount; i++) {
+    //     if (strcmp(Todo->tasks[i],  Todo->taskName) == 0) {
+    //         found = 1;
+
+    //         // Remove the task and shift the remaining tasks
+    //         for (int j = i; j < Todo->taskCount - 1; j++) {
+    //             strcpy(Todo->tasks[j], Todo->tasks[j + 1]);
+    //         }
+
+    //         Todo->taskCount--;
+    //         break;
+    //     }
+    // }
+    
+    // if (found) {
+    //     printf("Task '%s' deleted successfully.\n", Todo->taskName);
+    //     AddPrintf(Todo, Todo->taskCount + 1);
+    // } else {
+    //     printf("Task '%s' not found.\n", Todo->taskName);
+    //     main();
+    // }
 
 }
 int main(void) {
