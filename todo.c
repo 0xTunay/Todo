@@ -43,8 +43,7 @@ void TaskDelete(struct todo *Todo) {
             found = 1;
 
             for(int j = 0; j <Todo->taskCount - 1;j++){
-                Todo->tasks[j] = Todo->tasks[j+1];
-                break;
+                strcpy(Todo->tasks[j], Todo->tasks[j + 1]);                break;
             }
             Todo->taskCount--;
             break;
