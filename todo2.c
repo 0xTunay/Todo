@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "todo.h"
@@ -13,10 +14,15 @@ struct todo {
 void AddTask()
     
 {
-    struct todo task[0];
-    
+    struct todo *task = malloc (sizeof(struct todo));
+    if(task == NULL)
+    {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+
     char *filename = "users.dat";
-    int n = sizeof(task)/sizeof(task[0]);
+    int n = sizeof(*task);
     FILE *fp = fopen(filename,"a");
     
     printf("Write your tasks\n");
@@ -47,6 +53,7 @@ void AddTask()
     if(!fp)
     {
         printf("Error ");
+        exit(1);
     }
     
 char buffer[100];
