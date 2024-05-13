@@ -1,82 +1,65 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
+#include "todo.h"
+
 struct todo {
-    char tasks[100][100];
+    char tasks[100];
     int taskCount;
     char taskToDelete[100]; 
     char *taskName;
 };
 
-void AddTask(struct todo *Todo) {
+void AddTask()
+    
+{
+    struct todo task[100];
+    
+    char *filename = "users.dat";
+    int n = sizeof(task)/sizeof(task[0]);
+    FILE *fp = fopen(filename,"a");
+    
+    printf("Write your tasks\n");
+    printf("if you want exit - write exit\n");
+
     int i = 0;
-    printf("write your task:\n");
-    printf("if you want exit, write exit\n");
-    do {
-        scanf("%s", Todo->tasks[i]);
-        i++;
-    } while (strcmp(Todo->tasks[i - 1], "exit") != 0);
 
-    AddPrintf(Todo, i);
-}
-
-void AddPrintf(struct todo *Todo, int count) {
-    printf("Your tasks:\n");
-    for (int j = 0; j < count - 1; j++) {
-        printf("%s\n", Todo->tasks[j]);
-    }
-    main();
-}
-
-void TaskDelete(struct todo *Todo) {
- int found = 0;
- char input[100];
-    printf("task for delete: ");
-    scanf("%s",input);
-
-    for(int i = 0;i<Todo->taskCount;i++)
+    if(!fp)
     {
-        if(strcmp(Todo->tasks[i],input) == 0)
-        {
-            printf("found");
-            found = 1;
-
-            for(int j = 0; j <Todo->taskCount - 1;j++){
-                strcpy(Todo->tasks[j], Todo->tasks[j + 1]);                break;
-            }
-            Todo->taskCount--;
+        printf("Error ");
+    }
+    for (i = 0; i < n; i++) {
+        printf("Add task %d\n", i + 1);
+        scanf("%s", task[i].tasks);
+        if (strcmp(task[i].tasks, "exit") == 0) {
             break;
         }
+        fprintf(fp, "%s\n", task[i].tasks);
     }
-    if(!found )
+    for(int j = 0; j<n;j++)
     {
-        printf("task not dound\n");
-
+        fprintf(fp, "%s\n", task[j].tasks);
     }
-    return 0;
-    // for (int i = 0; i < Todo->taskCount; i++) {
-    //     if (strcmp(Todo->tasks[i],  Todo->taskName) == 0) {
-    //         found = 1;
 
-    //         // Remove the task and shift the remaining tasks
-    //         for (int j = i; j < Todo->taskCount - 1; j++) {
-    //             strcpy(Todo->tasks[j], Todo->tasks[j + 1]);
-    //         }
+    fclose(fp);
 
-    //         Todo->taskCount--;
-    //         break;
-    //     }
-    // }
+    fp = fopen(filename, "rb");
+    if(!fp)
+    {
+        printf("Error ");
+    }
     
-    // if (found) {
-    //     printf("Task '%s' deleted successfully.\n", Todo->taskName);
-    //     AddPrintf(Todo, Todo->taskCount + 1);
-    // } else {
-    //     printf("Task '%s' not found.\n", Todo->taskName);
-    //     main();
-    // }
+char buffer[100];
+    while (fgets(buffer, sizeof(buffer), fp)) {
+        printf("%s\n", buffer);
+    }
+    fclose(fp);
+}
 
+
+void TaskDelete()
+{
+    printf("hello");
 }
 int main(void) {
     struct todo Todo;
@@ -88,11 +71,11 @@ int main(void) {
     printf("Todo, Delete, Exit\n");
     scanf("%s", user);
 
-    if (strcmp(user, "Todo") == 0) {
-        AddTask(&Todo); 
-    } else if (strcmp(user, "Delete") == 0) {
-        TaskDelete(&Todo); 
-    } else if (strcmp(user, "Exit") != 0) {
+    if (strcasecmp(user, "Todo") == 0) {
+        AddTask(); 
+    } else if (strcasecmp(user, "Delete") == 0) {
+        TaskDelete(); 
+    } else if (strcasecmp(user, "Exit") != 0) {
         printf("You entered something incorrect.\n");
         main();
     }
