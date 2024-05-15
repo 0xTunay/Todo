@@ -10,9 +10,8 @@ struct todo {
 };
 
 void AddTask()
-    
 {
-    
+
     struct todo *tasks = (struct todo *)malloc(sizeof(struct todo));
 
 
@@ -25,7 +24,7 @@ void AddTask()
     char *filename = "users.dat";
     int n = sizeof(*tasks);
     FILE *fp = fopen(filename,"a");
-    
+
     printf("Write your tasks\n");
     printf("if you want exit - write exit\n");
 
@@ -45,7 +44,7 @@ void AddTask()
         fprintf(fp, "%s\n", task);
     }
     fclose(fp);
-    
+
     printf("Your tasks: \n");
 
     fp = fopen(filename, "r");
@@ -56,10 +55,11 @@ void AddTask()
 
     char line[100];
     int taksNum = 1;
-    while (fgets(line, sizeof(line), fp)) {
+    while (fgets(line, sizeof(line), fp)) 
+    {
         printf(" task: %d  %s", taksNum++, line);
     }
-    
+
     fclose(fp);
 
     free(tasks);
@@ -82,11 +82,14 @@ int main(void) {
     printf("Todo, Delete, Exit\n");
     scanf("%s", user);
 
-    if (strcasecmp(user, "Todo") == 0) {
+    if (strcmp(user, "Todo") == 0) 
+    {
         AddTask(); 
-    } else if (strcasecmp(user, "Delete") == 0) {
+    } else if (strcmp(user, "Delete") == 0) 
+    {
         TaskDelete(); 
-    } else if (strcasecmp(user, "Exit") != 0) {
+    } else if (strcmp(user, "Exit") != 0) 
+    {
         printf("You entered something incorrect.\n");
         main();
     }
