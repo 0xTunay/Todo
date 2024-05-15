@@ -44,9 +44,26 @@ void AddTask()
         tasks->taskCount = ++taskCount;
         fprintf(fp, "%s\n", task);
     }
-
     fclose(fp);
+    
+    printf("Your tasks: \n");
+
+    fp = fopen(filename, "r");
+    if (fp == NULL) {
+        printf("Failed to open file %s\n", filename);
+        exit(1);
+    }
+
+    char line[100];
+    int taksNum = 1;
+    while (fgets(line, sizeof(line), fp)) {
+        printf(" task: %d  %s", taksNum++, line);
+    }
+    
+    fclose(fp);
+
     free(tasks);
+
 
 }
 
