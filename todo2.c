@@ -7,60 +7,47 @@
 struct todo {
     char tasks[100];
     int taskCount;
-    char taskToDelete[100]; 
-    char *taskName;
 };
 
 void AddTask()
     
 {
-    struct todo *task = malloc (sizeof(struct todo));
-    if(task == NULL)
+    
+    struct todo *tasks = (struct todo *)malloc(sizeof(struct todo));
+
+
+    if(tasks == NULL)
     {
         printf("Memory allocation failed\n");
         exit(1);
     }
 
     char *filename = "users.dat";
-    int n = sizeof(*task);
+    int n = sizeof(*tasks);
     FILE *fp = fopen(filename,"a");
     
     printf("Write your tasks\n");
     printf("if you want exit - write exit\n");
 
-    int i = 0;
+    int taskCount = 0;
+    char task[100];
 
-    if(!fp)
+    while (1)
     {
-        printf("Error ");
-    }
-    for (i = 0; i < n; i++) {
-        printf("Add task %d\n", i + 1);
-        scanf("%s", task[i].tasks);
-        if (strcmp(task[i].tasks, "exit") == 0) {
+        printf("Add task %d: ", taskCount + 1);
+        scanf("%s", task);
+        if (strcmp(task, "exit") == 0)
+        {
             break;
         }
-        fprintf(fp, "%s\n", task[i].tasks);
-    }
-    for(int j = 0; j<n;j++)
-    {
-        fprintf(fp, "%s\n", task[j].tasks);
+        strcpy(tasks->tasks, task);
+        tasks->taskCount = ++taskCount;
+        fprintf(fp, "%s\n", task);
     }
 
     fclose(fp);
+    free(tasks);
 
-    fp = fopen(filename, "rb");
-    if(!fp)
-    {
-        printf("Error ");
-        exit(1);
-    }
-    
-char buffer[100];
-    while (fgets(buffer, sizeof(buffer), fp)) {
-        printf("%s\n", buffer);
-    }
-    fclose(fp);
 }
 
 
