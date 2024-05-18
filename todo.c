@@ -4,16 +4,15 @@
 
 #include "todo.h"
 
-struct todo {
+typedef struct {
     char tasks[100];
     int taskCount;
-};
+    char user[10];
+} todo;
 
 void AddTask()
 {
-
-    struct todo *tasks = (struct todo *)malloc(sizeof(struct todo));
-
+    todo *tasks = (todo *)malloc(sizeof(todo));
 
     if(tasks == NULL)
     {
@@ -23,7 +22,7 @@ void AddTask()
 
     char *filename = "users.dat";
     int n = sizeof(*tasks);
-    FILE *fp = fopen(filename,"a");
+    FILE *fp = fopen(filename, "a");
 
     printf("Write your tasks\n");
     printf("if you want exit - write exit\n");
@@ -64,36 +63,74 @@ void AddTask()
 
     free(tasks);
 
+    printf("Do you want to continue?\n");
+    char usssr[10];
+    scanf("%s", usssr);
+    if(strcmp(usssr, "Yes") == 0)
+    {
+        contunie();
+    } 
+    else if(strcmp(usssr, "No") == 0)  
+    {
+        printf("Thanks for using my program, your tasks are in the file user.dat. Goodbye\n");
+        exit(1);
+    }
 
 }
 
+void contunie()
+{
+    todo *todoN = (todo *)malloc(sizeof(todo));
+    if (todoN == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+
+    printf("Todo, Delete, Exit\n");
+    scanf("%s", todoN->user);
+
+    if (strcmp(todoN->user, "Todo") == 0) 
+    {
+        AddTask(); 
+    } 
+    else if (strcmp(todoN->user, "Delete") == 0) 
+    {
+        TaskDelete(); 
+    } 
+    else if (strcmp(todoN->user, "Exit") != 0) 
+    {
+        printf("You entered something incorrect.\n");
+        contunie();
+    }
+
+    free(todoN);
+
+}
 
 void TaskDelete()
 {
     printf("hello");
 }
-int main(void) {
-    struct todo Todo;
-    Todo.taskCount = 0; 
 
-    char user[10];
+int main(void) {
+    todo Todo;
+    Todo.taskCount = 0;
 
     printf("Hello, what do you want?\n");
     printf("Todo, Delete, Exit\n");
-    scanf("%s", user);
+    scanf("%s", Todo.user);
 
-    if (strcmp(user, "Todo") == 0) 
+    if (strcmp(Todo.user, "Todo") == 0) 
     {
         AddTask(); 
-    } else if (strcmp(user, "Delete") == 0) 
+    } else if (strcmp(Todo.user, "Delete") == 0) 
     {
         TaskDelete(); 
-    } else if (strcmp(user, "Exit") != 0) 
+    } else if (strcmp(Todo.user, "Exit") != 0) 
     {
         printf("You entered something incorrect.\n");
         main();
     }
 
     return 0;
-
 }
