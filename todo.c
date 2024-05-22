@@ -111,10 +111,16 @@ void contunie()
 
 void TaskDelete()
 {
+    todo * task_delete;
 
-         FILE *fp = fopen(filename, "r");
+    FILE *fp,*tempFile;
+    
+    int taskNumber = 1;
+    int fTask = 0;
+    
 
-        printf("Your tasks: \n");
+    fp = fopen(filename, "r");
+
 
     fp = fopen(filename, "r");
     if (fp == NULL) {
@@ -128,7 +134,17 @@ void TaskDelete()
         printf("task: %s", line);
     }
 
-    fclose(fp);
+    printf("what task you want delete?");
+    scanf("%s",task_delete->user);
+
+    int  deleteTask = 0;
+
+    strcpy(task_delete->user,deleteTask);
+
+    while (fgets(line, sizeof(line), fp) == deleteTask) 
+
+
+        fclose(fp);
 
 }
 
