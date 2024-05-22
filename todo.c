@@ -8,7 +8,10 @@ typedef struct {
     char tasks[100];
     int taskCount;
     char user[10];
+    char *filename;
 } todo;
+
+static char *filename = "user.dat";
 
 void AddTask()
 {
@@ -19,8 +22,6 @@ void AddTask()
         printf("Memory allocation failed\n");
         exit(1);
     }
-
-    char *filename = "users.dat";
     int n = sizeof(*tasks);
     FILE *fp = fopen(filename, "a");
 
@@ -33,14 +34,15 @@ void AddTask()
     while (1)
     {
         printf("Add task %d: ", taskCount + 1);
-        scanf("%s", task);
+        scanf(" %s", task);
         if (strcmp(task, "exit") == 0)
         {
             break;
         }
         strcpy(tasks->tasks, task);
         tasks->taskCount = ++taskCount;
-        fprintf(fp, "%s\n", task);
+        fprintf(fp,"%d.  %s\n", taskCount,task);
+        taskCount + 1;
     }
     fclose(fp);
 
@@ -90,7 +92,7 @@ void contunie()
     scanf("%s", todoN->user);
 
     if (strcmp(todoN->user, "Todo") == 0) 
-    {
+    {  
         AddTask(); 
     } 
     else if (strcmp(todoN->user, "Delete") == 0) 
@@ -109,7 +111,25 @@ void contunie()
 
 void TaskDelete()
 {
-    printf("hello");
+
+         FILE *fp = fopen(filename, "r");
+
+        printf("Your tasks: \n");
+
+    fp = fopen(filename, "r");
+    if (fp == NULL) {
+        printf("Failed to open file %s\n", filename);
+        exit(1);
+    }
+
+    char line[100];
+    while (fgets(line, sizeof(line), fp)) 
+    {
+        printf("task: %s", line);
+    }
+
+    fclose(fp);
+
 }
 
 int main(void) {
