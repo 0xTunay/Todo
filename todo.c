@@ -41,8 +41,7 @@ void AddTask()
         }
         strcpy(tasks->tasks, task);
         tasks->taskCount = ++taskCount;
-        fprintf(fp,"%d.  %s\n", taskCount,task);
-        taskCount + 1;
+        fprintf(fp,"%s\n",task);
     }
     fclose(fp);
 
@@ -108,19 +107,13 @@ void contunie()
     free(todoN);
 
 }
-
-void TaskDelete()
-{
-    todo * task_delete;
-
-    FILE *fp,*tempFile;
+void TaskDelete() {
+    FILE *fp, *tempFile;
     
-    int taskNumber = 1;
+    int deleteTask = 0;
+    int crn = 1;
+    char line[100];
     int fTask = 0;
-    
-
-    fp = fopen(filename, "r");
-
 
     fp = fopen(filename, "r");
     if (fp == NULL) {
@@ -128,25 +121,59 @@ void TaskDelete()
         exit(1);
     }
 
-    char line[100];
-    while (fgets(line, sizeof(line), fp)) 
-    {
-        printf("task: %s", line);
+    printf("Your tasks:\n");
+    while (fgets(line, sizeof(line), fp)) {
+        printf("%d %s",crn,line);
+        crn++;
+    }
+    rewind(fp);
+
+    printf("What task number do you want to delete?\n");
+    scanf("%d", &deleteTask);
+
+    if (deleteTask <= 0 || deleteTask >= crn) {
+        printf("Invalid task number\n");
+        fclose(fp);
+        exit(1);
     }
 
-    printf("what task you want delete?");
-    scanf("%s",task_delete->user);
-
-    int  deleteTask = 0;
-
-    strcpy(task_delete->user,deleteTask);
-
-    while (fgets(line, sizeof(line), fp) == deleteTask) 
-
-
+    tempFile = fopen("temp.dat", "w");
+    if (tempFile == NULL) {
+        printf("Failed to open temporary file\n");
         fclose(fp);
+        exit(1);
+    }
 
+    crn = 1;
+    while (fgets(line, sizeof(line), fp)) {
+        if (crn != deleteTask) {
+            fputs(line, tempFile);
+        } else {
+            fTask = 1;
+            printf("Deleting task %d: %s", deleteTask, line);
+        }
+        crn++;
+    }
+
+    fclose(fp);
+    fclose(tempFile);
+
+    if (fTask) {
+        if (remove(filename) != 0) {
+            printf("Failed to delete the original file.\n");
+            exit(1);
+        }
+        if (rename("temp.dat", filename) != 0) {
+            printf("Failed to rename the temporary file.\n");
+            exit(1);
+        }
+        printf("Task %d successfully deleted.\n", deleteTask);
+    } else {
+        printf("Task %d not found in the file.\n", deleteTask);
+        remove("temp.dat"); 
+    }
 }
+
 
 int main(void) {
     todo Todo;
@@ -170,3 +197,4 @@ int main(void) {
 
     return 0;
 }
+// THIS FINISH LINE, YOU KNOW <З
