@@ -12,13 +12,12 @@ void toUpperCase(char *str) {
 int main() {
     char input[100];
 
-    printf("Введите строку: ");
     fgets(input, sizeof(input), stdin);
-    input[strcspn(input, "\n")] = 0; // Удаление символа новой строки
+    input[strcspn(input, "\n")] = 0; 
 
-    toUpperCase(input); // Преобразуем строку в верхний регистр
+    toUpperCase(input);
 
-    printf("Строка в верхнем регистре: %s\n", input);
+    printf("%s\n", input);
 
     return 0;
 }
