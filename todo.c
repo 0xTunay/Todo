@@ -4,26 +4,55 @@
 
 #include "todo.h"
 
-typedef struct {
-    char tasks[100];
-    int taskCount;
-    char user[10];
-    char *filename;
-} todo;
+
 
 static char *filename = "user.dat";
 
+int main(void) {
+    todo Todo;
+    Todo.taskCount = 0;
+
+    printf("Hello, what do you want?\n");
+    printf("Todo, Delete, Exit\n");
+    fgets(Todo.user,sizeof(Todo.user),stdin);
+
+    Todo.user[strcspn(Todo.user, "\n")] = 0;
+
+    while(strcmp(Todo.user, "exit")!= 0){
+        toUpperCase(Todo.user);
+
+        if (strcmp(Todo.user, "TODO") == 0) {
+            AddTask(); 
+        } else if (strcmp(Todo.user, "DELETE") == 0) {
+            TaskDelete(); 
+        } else {
+            printf("You entered something incorrect.\n");
+        }
+        printf("What do you want? (Todo, Delete, Exit)\n");
+        fgets(Todo.user,sizeof(Todo.user),stdin);
+    }
+
+    return 0;
+}
+void toUpperCase(char *str){
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] >= 'a' && str[i] <= 'z') {
+            str[i] = str[i] - 32;
+        }
+    }
+}
 void AddTask()
 {
-    todo *tasks = (todo *)malloc(sizeof(todo));
+    todo *tasks = NULL;
 
-    if(tasks == NULL)
-    {
-        printf("Memory allocation failed\n");
-        exit(1);
-    }
+
     int n = sizeof(*tasks);
     FILE *fp = fopen(filename, "a");
+        if(fp == NULL)
+    {
+        printf("Failed open file\n");
+        exit(1);
+    }
 
     printf("Write your tasks\n");
     printf("if you want exit - write exit\n");
@@ -31,18 +60,16 @@ void AddTask()
     int taskCount = 0;
     char task[100];
 
-    while (1)
-    {
+while (1) {
         printf("Add task %d: ", taskCount + 1);
-        scanf(" %s", task);
-        if (strcmp(task, "exit") == 0)
-        {
+        fgets(task, sizeof(task), stdin);
+
+        task[strcspn(task, "\n")] = 0;
+
+        if (strcmp(task, "exit") == 0) {
             break;
         }
-        strcpy(tasks->tasks, task);
-        tasks->taskCount = ++taskCount;
-        fprintf(fp,"%s\n",task);
-    }
+}
     fclose(fp);
 
     printf("Your tasks: \n");
@@ -66,7 +93,7 @@ void AddTask()
 
     printf("Do you want to continue?\n");
     char usssr[10];
-    scanf("%s", usssr);
+    fgets(usssr,sizeof(usssr),stdin);
     if(strcmp(usssr, "Yes") == 0)
     {
         contunie();
@@ -88,28 +115,31 @@ void contunie()
     }
 
     printf("Todo, Delete, Exit\n");
-    scanf("%s", todoN->user);
+    fgets(todoN->user,sizeof(todoN->user),stdin);
 
-    if (strcmp(todoN->user, "Todo") == 0) 
-    {  
+
+    todoN->user[strcspn(todoN->user, "\n")] = 0;
+
+    while(strcmp(todoN->user, "Exit") != 0){
+    toUpperCase(todoN->user);
+
+    if (strcmp(todoN->user, "TODO") == 0) {  
         AddTask(); 
     } 
-    else if (strcmp(todoN->user, "Delete") == 0) 
-    {
+    else if (strcmp(todoN->user, "DELETE") == 0) {
         TaskDelete(); 
     } 
-    else if (strcmp(todoN->user, "Exit") != 0) 
-    {
+    else {
         printf("You entered something incorrect.\n");
-        contunie();
     }
-
+}
     free(todoN);
 
 }
+
 void TaskDelete() {
     FILE *fp, *tempFile;
-    
+
     int deleteTask = 0;
     int crn = 1;
     char line[100];
@@ -174,27 +204,4 @@ void TaskDelete() {
     }
 }
 
-
-int main(void) {
-    todo Todo;
-    Todo.taskCount = 0;
-
-    printf("Hello, what do you want?\n");
-    printf("Todo, Delete, Exit\n");
-    scanf("%s", Todo.user);
-
-    if (strcmp(Todo.user, "Todo") == 0) 
-    {
-        AddTask(); 
-    } else if (strcmp(Todo.user, "Delete") == 0) 
-    {
-        TaskDelete(); 
-    } else if (strcmp(Todo.user, "Exit") != 0) 
-    {
-        printf("You entered something incorrect.\n");
-        main();
-    }
-
-    return 0;
-}
-// THIS FINISH LINE, YOU KNOW <З
+// THIS FINISH LINE, YOU KNOW :З
