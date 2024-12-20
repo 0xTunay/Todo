@@ -43,12 +43,15 @@ void toUpperCase(char *str){
 }
 void AddTask()
 {
+    int taskCount = 0;
+    char task[100];
+
     todo *tasks = NULL;
 
 
     int n = sizeof(*tasks);
     FILE *fp = fopen(filename, "a");
-        if(fp == NULL)
+    if(fp == NULL)
     {
         printf("Failed open file\n");
         exit(1);
@@ -57,10 +60,9 @@ void AddTask()
     printf("Write your tasks\n");
     printf("if you want exit - write exit\n");
 
-    int taskCount = 0;
-    char task[100];
 
-while (1) {
+
+    while (1) {
         printf("Add task %d: ", taskCount + 1);
         fgets(task, sizeof(task), stdin);
 
@@ -69,7 +71,12 @@ while (1) {
         if (strcmp(task, "exit") == 0) {
             break;
         }
-}
+    }
+    tasks = realloc(tasks, (taskCount + 1) * sizeof(todo));
+    if (tasks == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
     fclose(fp);
 
     printf("Your tasks: \n");
@@ -90,15 +97,15 @@ while (1) {
     fclose(fp);
 
     free(tasks);
-
     printf("Do you want to continue?\n");
     char usssr[10];
     fgets(usssr,sizeof(usssr),stdin);
-    if(strcmp(usssr, "Yes") == 0)
+    toUpperCase(usssr);
+    if(strcmp(usssr, "YES") == 0)
     {
         contunie();
     } 
-    else if(strcmp(usssr, "No") == 0)  
+    else if(strcmp(usssr, "NO") == 0)  
     {
         printf("Thanks for using my program, your tasks are in the file user.dat. Goodbye\n");
         exit(1);
@@ -121,18 +128,18 @@ void contunie()
     todoN->user[strcspn(todoN->user, "\n")] = 0;
 
     while(strcmp(todoN->user, "Exit") != 0){
-    toUpperCase(todoN->user);
+        toUpperCase(todoN->user);
 
-    if (strcmp(todoN->user, "TODO") == 0) {  
-        AddTask(); 
-    } 
-    else if (strcmp(todoN->user, "DELETE") == 0) {
-        TaskDelete(); 
-    } 
-    else {
-        printf("You entered something incorrect.\n");
+        if (strcmp(todoN->user, "TODO") == 0) {  
+            AddTask(); 
+        } 
+        else if (strcmp(todoN->user, "DELETE") == 0) {
+            TaskDelete(); 
+        } 
+        else {
+            printf("You entered something incorrect.\n");
+        }
     }
-}
     free(todoN);
 
 }
