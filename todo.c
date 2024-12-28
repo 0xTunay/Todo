@@ -43,7 +43,9 @@ void toUpperCase(char *str){
 }
 void AddTask()
 {
-    int taskCount = 0;
+
+    /*dХАХ ХАХ АХ, ЧТО ЗА ХУЙНЯ НАПИСАНА, баг на баге */
+    int taskCount = 1;
     char task[100];
 
     todo *tasks = NULL;
@@ -63,7 +65,7 @@ void AddTask()
 
 
     while (1) {
-        printf("Add task %d: ", taskCount + 1);
+        printf("Add task %d: ", taskCount++);
         fgets(task, sizeof(task), stdin);
 
         task[strcspn(task, "\n")] = 0;
