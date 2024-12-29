@@ -3,44 +3,11 @@
 #include <string.h>
 
 #include "todo.h"
-
+#include "Upped.h"
 
 
 static char *filename = "user.dat";
 
-int main(void) {
-    todo Todo;
-    Todo.taskCount = 0;
-
-    printf("Hello, what do you want?\n");
-    printf("Todo, Delete, Exit\n");
-    fgets(Todo.user,sizeof(Todo.user),stdin);
-
-    Todo.user[strcspn(Todo.user, "\n")] = 0;
-
-    while(strcmp(Todo.user, "exit")!= 0){
-        toUpperCase(Todo.user);
-
-        if (strcmp(Todo.user, "TODO") == 0) {
-            AddTask(); 
-        } else if (strcmp(Todo.user, "DELETE") == 0) {
-            TaskDelete(); 
-        } else {
-            printf("You entered something incorrect.\n");
-        }
-        printf("What do you want? (Todo, Delete, Exit)\n");
-        fgets(Todo.user,sizeof(Todo.user),stdin);
-    }
-
-    return 0;
-}
-void toUpperCase(char *str){
-    for (int i = 0; str[i] != '\0'; i++) {
-        if (str[i] >= 'a' && str[i] <= 'z') {
-            str[i] = str[i] - 32;
-        }
-    }
-}
 void AddTask()
 {
 
@@ -212,5 +179,33 @@ void TaskDelete() {
         remove("temp.dat"); 
     }
 }
+
+int main(void) {
+    todo Todo;
+    Todo.taskCount = 0;
+
+    printf("Hello, what do you want?\n");
+    printf("Todo, Delete, Exit\n");
+    fgets(Todo.user,sizeof(Todo.user),stdin);
+
+    Todo.user[strcspn(Todo.user, "\n")] = 0;
+
+    while(strcmp(Todo.user, "exit")!= 0){
+        toUpperCase(Todo.user);
+
+        if (strcmp(Todo.user, "TODO") == 0) {
+            AddTask(); 
+        } else if (strcmp(Todo.user, "DELETE") == 0) {
+            TaskDelete(); 
+        } else {
+            printf("You entered something incorrect.\n");
+        }
+        printf("What do you want? (Todo, Delete, Exit)\n");
+        fgets(Todo.user,sizeof(Todo.user),stdin);
+    }
+
+    return 0;
+}
+
 
 // THIS FINISH LINE, YOU KNOW :З
