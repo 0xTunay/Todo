@@ -1,2 +1,0 @@
-void toUpperCase(char *str);
- 
