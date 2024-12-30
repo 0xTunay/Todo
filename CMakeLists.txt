@@ -1,7 +1,30 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(todo)
+project(Todo)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(todo todo.c)
+set(SRC
+    src/Upper.c
+
+)
+
+set(INCLUDE
+    include/todo.h
+    include/Upper.h
+)
+
+add_library(core
+    ${SRC}
+    ${CORE_SRC}
+)
+
+add_executable(Todo
+    main.c
+)
+
+target_link_libraries(Todo PRIVATE core)
+
+set_target_properties(Todo PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
+)

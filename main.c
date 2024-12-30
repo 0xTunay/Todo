@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "todo.h"
-#include "Upper.h"
+#include "include/todo.h"
+#include "include/Upper.h"
 
 
 static char *filename = "user.dat";
@@ -11,7 +11,6 @@ static char *filename = "user.dat";
 void AddTask()
 {
 
-    /*dХАХ ХАХ АХ, ЧТО ЗА ХУЙНЯ НАПИСАНА, баг на баге */
     int taskCount = 1;
     char task[100];
 
