@@ -25,6 +25,3 @@ add_executable(Todo
 
 target_link_libraries(Todo PRIVATE core)
 
-set_target_properties(Todo PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
-)

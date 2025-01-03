@@ -1,10 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "include/todo.h"
 #include "include/Upper.h"
-
 
 static char *filename = "user.dat";
 
@@ -13,6 +8,7 @@ void AddTask()
 
     int taskCount = 1;
     char task[100];
+    char usssr[10];
 
     todo *tasks = NULL;
 
@@ -31,20 +27,24 @@ void AddTask()
 
 
     while (1) {
+
         printf("Add task %d: ", taskCount++);
         fgets(task, sizeof(task), stdin);
 
         task[strcspn(task, "\n")] = 0;
+        toUpperCase(task);
 
-        if (strcmp(task, "exit") == 0) {
+        if (strcmp(task, "EXIT") == 0) {
             break;
         }
     }
     tasks = realloc(tasks, (taskCount + 1) * sizeof(todo));
+
     if (tasks == NULL) {
         printf("Memory allocation failed\n");
         exit(1);
     }
+
     fclose(fp);
 
     printf("Your tasks: \n");
@@ -65,10 +65,15 @@ void AddTask()
     fclose(fp);
 
     free(tasks);
+
     printf("Do you want to continue?\n");
-    char usssr[10];
+
     fgets(usssr,sizeof(usssr),stdin);
+
+    usssr[strcspn(usssr, "\n")] = 0;
     toUpperCase(usssr);
+
+
     if(strcmp(usssr, "YES") == 0)
     {
         contunie();
@@ -93,10 +98,12 @@ void contunie()
     fgets(todoN->user,sizeof(todoN->user),stdin);
 
 
-    todoN->user[strcspn(todoN->user, "\n")] = 0;
 
-    while(strcmp(todoN->user, "Exit") != 0){
-        toUpperCase(todoN->user);
+    while(strcmp(todoN->user, "EXIT") != 0){
+
+
+    todoN->user[strcspn(todoN->user, "\n")] = 0;
+    toUpperCase(todoN->user);
 
         if (strcmp(todoN->user, "TODO") == 0) {  
             AddTask(); 
@@ -189,7 +196,7 @@ int main(void) {
 
     Todo.user[strcspn(Todo.user, "\n")] = 0;
 
-    while(strcmp(Todo.user, "exit")!= 0){
+    while(strcmp(Todo.user, "EXIT")!= 0){
         toUpperCase(Todo.user);
 
         if (strcmp(Todo.user, "TODO") == 0) {
@@ -199,8 +206,7 @@ int main(void) {
         } else {
             printf("You entered something incorrect.\n");
         }
-        printf("What do you want? (Todo, Delete, Exit)\n");
-        fgets(Todo.user,sizeof(Todo.user),stdin);
+
     }
 
     return 0;
