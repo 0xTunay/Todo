@@ -14,7 +14,7 @@ void AddTask()
 
 
     int n = sizeof(*tasks);
-    FILE *fp = fopen(filename, "a");
+    FILE *fp = fopen(filename, "w");
     if(fp == NULL)
     {
         printf("Failed open file\n");
@@ -25,7 +25,6 @@ void AddTask()
     printf("if you want exit - write exit\n");
 
 
-
     while (1) {
 
         printf("Add task %d: ", taskCount++);
@@ -34,10 +33,13 @@ void AddTask()
         task[strcspn(task, "\n")] = 0;
         toUpperCase(task);
 
+
         if (strcmp(task, "EXIT") == 0) {
             break;
         }
+        fprintf(fp,"%s\n",task);
     }
+
     tasks = realloc(tasks, (taskCount + 1) * sizeof(todo));
 
     if (tasks == NULL) {
@@ -55,7 +57,7 @@ void AddTask()
         exit(1);
     }
 
-    char line[100];
+    char line[MAX_TASKS_SIZE];
     int taksNum = 1;
     while (fgets(line, sizeof(line), fp)) 
     {
@@ -63,23 +65,18 @@ void AddTask()
     }
 
     fclose(fp);
-
     free(tasks);
 
     printf("Do you want to continue?\n");
-
     fgets(usssr,sizeof(usssr),stdin);
 
     usssr[strcspn(usssr, "\n")] = 0;
     toUpperCase(usssr);
 
 
-    if(strcmp(usssr, "YES") == 0)
-    {
+    if(strcmp(usssr, "YES") == 0){
         contunie();
-    } 
-    else if(strcmp(usssr, "NO") == 0)  
-    {
+    } else if(strcmp(usssr, "NO") == 0)  {
         printf("Thanks for using my program, your tasks are in the file user.dat. Goodbye\n");
         exit(1);
     }
@@ -196,7 +193,12 @@ int main(void) {
 
     Todo.user[strcspn(Todo.user, "\n")] = 0;
 
-    while(strcmp(Todo.user, "EXIT")!= 0){
+    int ValueCorrent = 1;
+
+    do{
+        fgets(Todo.user,sizeof(Todo.user),stdin);
+
+        Todo.user[strcspn(Todo.user, "\n")] = 0;
         toUpperCase(Todo.user);
 
         if (strcmp(Todo.user, "TODO") == 0) {
@@ -205,9 +207,10 @@ int main(void) {
             TaskDelete(); 
         } else {
             printf("You entered something incorrect.\n");
+            ValueCorrent = 0;
         }
+    } while( !ValueCorrent ||strcmp(Todo.user, "EXIT")!= 0);
 
-    }
 
     return 0;
 }
