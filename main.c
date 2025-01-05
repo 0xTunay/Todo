@@ -6,7 +6,6 @@ static char *filename = "user.dat";
 
 void AddTask()
 {
-
     int taskCount = 1, numbertask = 5;
     char task[MAX_TASKS_SIZE];
     char choice[MAX_USER_SIZE];
@@ -17,12 +16,11 @@ void AddTask()
         exit(EXIT_FAILURE);
     }
 
-    int n = sizeof(*tasks);
     FILE *fp = fopen(filename, "w");
     if(fp == NULL)
     {
         printf("Failed open file\n");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     printf("Write your tasks\n");
@@ -31,7 +29,6 @@ void AddTask()
 
     while (1) {
 
-        printf("Add task %d: ", taskCount);
         fgets(task, sizeof(task), stdin);
         
         task[strcspn(task, "\n")] = 0;
@@ -45,7 +42,7 @@ void AddTask()
             printf("Task %d is empty, keeping previous value.\n", taskCount);
         } else {
             taskCount++;
-            fprintf(fp, " %s\n", task);
+            fprintf(fp, "%d, %s\n",taskCount ,task);
         }
 
     }
@@ -197,7 +194,7 @@ void TaskDelete() {
     }
 }
 
-int main(void) {
+int main(void){
     todo Todo;
     Todo.taskCount = 0;
 
