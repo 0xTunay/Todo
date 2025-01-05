@@ -1,7 +1,6 @@
 #include "include/todo.h"
 #include "include/Upper.h"
-#include <_stdio.h>
-#include <_stdlib.h>
+
 
 static char *filename = "user.dat";
 
@@ -32,17 +31,23 @@ void AddTask()
 
     while (1) {
 
-        printf("Add task %d: ", taskCount++);
+        printf("Add task %d: ", taskCount);
         fgets(task, sizeof(task), stdin);
         
         task[strcspn(task, "\n")] = 0;
-        toUpperCase(task);
 
 
-        if (strcmp(task, "EXIT") == 0) {
+        if (strcmp(task, "exit") == 0) {
             break;
         }
-        fprintf(fp,"%s\n",task);
+
+         if (task[0] == '\0') {
+            printf("Task %d is empty, keeping previous value.\n", taskCount);
+        } else {
+            taskCount++;
+            fprintf(fp, " %s\n", task);
+        }
+
     }
 
     tasks = realloc(tasks, (taskCount + 1) * sizeof(todo));
