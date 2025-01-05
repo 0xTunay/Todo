@@ -99,8 +99,8 @@ void contunie()
     while(strcmp(todoN->user, "EXIT") != 0){
 
 
-    todoN->user[strcspn(todoN->user, "\n")] = 0;
-    toUpperCase(todoN->user);
+        todoN->user[strcspn(todoN->user, "\n")] = 0;
+        toUpperCase(todoN->user);
 
         if (strcmp(todoN->user, "TODO") == 0) {  
             AddTask(); 
@@ -129,6 +129,12 @@ void TaskDelete() {
         printf("Failed to open file %s\n", filename);
         exit(1);
     }
+
+    if (getc(fp) == EOF) {
+        puts("you dont have any tasks, go to add tasks please!");
+        AddTask();
+    }
+
 
     printf("Your tasks:\n");
     while (fgets(line, sizeof(line), fp)) {
@@ -193,27 +199,22 @@ int main(void) {
 
     Todo.user[strcspn(Todo.user, "\n")] = 0;
 
-    int ValueCorrent = 1;
-
-    do{
-        fgets(Todo.user,sizeof(Todo.user),stdin);
+    while (strcmp(Todo.user, "EXIT") != 0) {
+        printf("Hello, what do you want? (Todo, Delete, Exit): ");
+        fgets(Todo.user, sizeof(Todo.user), stdin);
 
         Todo.user[strcspn(Todo.user, "\n")] = 0;
+
         toUpperCase(Todo.user);
 
         if (strcmp(Todo.user, "TODO") == 0) {
             AddTask(); 
         } else if (strcmp(Todo.user, "DELETE") == 0) {
             TaskDelete(); 
-        } else {
-            printf("You entered something incorrect.\n");
-            ValueCorrent = 0;
+        } else if (strcmp(Todo.user, "EXIT") != 0) {
+            printf("You entered something incorrect. Try again.\n");
         }
-    } while( !ValueCorrent ||strcmp(Todo.user, "EXIT")!= 0);
-
-
+    }
     return 0;
 }
-
-
 // THIS FINISH LINE, YOU KNOW :З
