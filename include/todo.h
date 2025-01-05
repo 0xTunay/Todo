@@ -7,11 +7,12 @@
 
 #define MAX_TASKS_SIZE 128
 #define MAX_USER_SIZE 32
+#define MAX_LINE_SIZE 128
 
 typedef struct {
-    char tasks[128];
+    char tasks[MAX_TASKS_SIZE];
     int taskCount;
-    char user[32];
+    char user[MAX_TASKS_SIZE];
     char *filename;
 } todo;
 
